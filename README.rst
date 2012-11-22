@@ -32,6 +32,6 @@ eekhoorn is a `buffer.io_` project.
 
 
 .. _buffer.io: http://buffer.io/
-.. _ansiicolors: http://github.com/verigak/colors/
+.. _ansicolors: http://github.com/verigak/colors/
 .. _sqlalchemy: http://sqlalchemy.org/
 .. _sqlparse: https://github.com/andialbrecht/sqlparse
