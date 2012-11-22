@@ -6,10 +6,11 @@ from itertools import chain
 import pyrepl.reader
 from colors import color
 from six import u
+from six.moves import xrange
 from sqlparse import sql
 from sqlparse.tokens import Token
 
-from eekhoorn.sql import get_tokens
+from eekhoorn.sql import get_tokens, flatten
 
 
 _disp_str = pyrepl.reader.disp_str
@@ -33,7 +34,7 @@ def format_token(token):
 
 def group_by_line(tokens):
     "Flattens tokens and groups them by line."
-    tokens = deque(chain.from_iterable(t.flatten() for t in tokens))
+    tokens = deque(flatten(tokens))
     line = []
     while tokens:
         token = tokens.popleft()

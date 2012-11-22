@@ -40,10 +40,30 @@ class Reader(
         self.ps4 = "  -> "
         self.commands["complete"] = complete
         self.commands["maybe-accept"] = maybe_accept
+        self._add_keybindings()
+
+    def _add_keybindings(self):
+        """This is a hack, but pyrepl's keymap stuff seems to be
+        broken. Ideally, all those should just be other items in
+        `collect_keymap`.
+        """
+        # M-b
+        self.input_trans.ck["\x1bb"] = u("backward-word")
+        # C-left
+        self.input_trans.ck["\x1b[D"] = u("backward-word")
+        # M-f
+        self.input_trans.ck["\x1bf"] = u("forward-word")
+        # C-right
+        self.input_trans.ck["\x1b[C"] = u("forward-word")
 
     def collect_keymap(self):
         keymap = super(Reader, self).collect_keymap()
-        return keymap + ((r'\n', 'maybe-accept'), )
+        return keymap + (
+            (r'\n', 'maybe-accept'),
+            # XXX not working yet
+            (r'\M-b', 'backward-word'),
+            (r"\M-f", "forward-word"),
+        )
 
     def error(self, msg):
         "More pretty error messages."
