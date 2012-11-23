@@ -37,7 +37,7 @@ class CellRenderer(object):
         elif isinstance(value, integer_types + (float, )):
             color = green
             renderer = self.renderer_right
-        for line in renderer.render(value):
+        for line in renderer.render(value, width):
             if color is not None:
                 line = color(line)
             yield line

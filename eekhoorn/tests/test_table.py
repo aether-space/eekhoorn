@@ -99,3 +99,11 @@ class MaxWidthtest(unittest.TestCase):
         table.add_row(["spam " * 10, "eggs " * 5])
         for line in table.render():
             self.assertEqual(len(line), 25)
+
+class DefaultCellRendererTest(unittest.TestCase):
+    def test_render_empty_value(self):
+        width = 5
+        expected = [" " * width]
+        renderer = DefaultCellRenderer("left")
+        lines = list(renderer.render("", width))
+        self.assertEqual(lines, expected)

@@ -34,6 +34,8 @@ class DefaultCellRenderer(object):
 
     def render(self, value, width):
         lines = wrap(text_type(value), width - 2)
+        if not lines:
+            lines = [""]
         for (i, line) in enumerate(lines):
             line = self.justifier(line, width)
             if i < (len(lines) - 1):
