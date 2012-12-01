@@ -1,6 +1,9 @@
 # encoding: utf-8
 
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 from eekhoorn.sql import statement_finished
 
