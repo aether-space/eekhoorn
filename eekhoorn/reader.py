@@ -3,9 +3,11 @@
 from colors import red
 from pyrepl import commands, completing_reader
 from pyrepl.historical_reader import HistoricalReader
+from pyrepl.reader import SYNTAX_WORD
 from six import u
 
 from eekhoorn import highlighting_reader
+from eekhoorn.completion import CompletingReader
 from eekhoorn.sql import statement_finished
 
 
@@ -25,15 +27,12 @@ class complete(completing_reader.complete):
             return super(complete, self).do()
 
 class Reader(
+        CompletingReader,
         HistoricalReader,
-        completing_reader.CompletingReader,
         highlighting_reader.HighlightingReader
 ):
-    # Don't show completion suggestions inside "[]"
-    use_brackets = False
-
-    def __init__(self, console):
-        super(Reader, self).__init__(console)
+    def __init__(self, **kwargs):
+        super(Reader, self).__init__(**kwargs)
         self.ps1 = "sql> "
         self.ps2 = "sql> "
         self.ps3 = "  -> "
@@ -41,6 +40,7 @@ class Reader(
         self.commands["complete"] = complete
         self.commands["maybe-accept"] = maybe_accept
         self._add_keybindings()
+        self._init_syntax_table()
 
     def _add_keybindings(self):
         """This is a hack, but pyrepl's keymap stuff seems to be
@@ -56,6 +56,9 @@ class Reader(
         # C-right
         self.input_trans.ck["\x1b[C"] = u("forward-word")
 
+    def _init_syntax_table(self):
+        self.syntax_table[u("_")] = SYNTAX_WORD
+
     def collect_keymap(self):
         keymap = super(Reader, self).collect_keymap()
         return keymap + (
@@ -69,3 +72,4 @@ class Reader(
         "More pretty error messages."
         self.msg = red(msg)
         self.dirty = True
+

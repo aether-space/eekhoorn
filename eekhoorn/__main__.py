@@ -76,9 +76,7 @@ def main(args=None):
 
     gateway = DatabaseGateway(args.url)
     console = UnixConsole(encoding=ENCODING)
-    reader = Reader(console)
-    sys.stdout.write(", ".join(gateway.tables))
-    sys.stdout.write("\n")
+    reader = Reader(console=console, gateway=gateway)
     sys.stdout.write("Welcome to eekhoorn, the fancy SQL console.\n")
     while True:
         try:
