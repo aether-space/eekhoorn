@@ -28,7 +28,7 @@ eekhoorn is distributed under a 3-clause BSD license. See `LICENSE`
 for details.
 
 
-eekhoorn is a `buffer.io_` project.
+eekhoorn is a `buffer.io`_ project.
 
 
 .. _buffer.io: http://buffer.io/
