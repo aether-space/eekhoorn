@@ -20,13 +20,13 @@ def get_all_identifiers(tokens):
         if isinstance(token, Identifier):
             parent_name = token.get_parent_name()
             real_name = token.get_real_name()
-            if parent_name:
-                name = token.get_name()
-                if name is not None:
+            name = token.get_name()
+            if name is not None:
+                if parent_name:
                     # Parent's name might be an alias
                     maybe_expand[name].add((parent_name, real_name))
-            else:
-                idents[token.get_name()].add(real_name)
+                else:
+                    idents[token.get_name()].add(real_name)
         elif token.is_group():
             tokens.extendleft(token.tokens)
     for (alias, values) in iteritems(maybe_expand):

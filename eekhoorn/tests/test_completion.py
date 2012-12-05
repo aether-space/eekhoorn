@@ -113,3 +113,8 @@ class CompletionsTest(unittest.TestCase):
         self.assertNotIn(u("id"), completions)
         self.assertIn(u("spam"), completions)
         self.assertIn(u("eggs"), completions)
+
+    def test_invalid_sql(self):
+        # Should not crash
+        reader = TestReader(u("SELECT * FROM table WHERE ''"))
+        get_completions(reader, u(""), TestGateway({}))
