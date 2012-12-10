@@ -62,8 +62,14 @@ def do_query(console, gateway, source):
             if result.returns_rows:
                 sys.stdout.write(tableify(result, console.width))
                 sys.stdout.write("\n")
-        msg = "Query took {0:.4f} seconds\n".format(gateway.last_query_time)
+        msg = "Query took {0:.4f} seconds".format(gateway.last_query_time)
         sys.stdout.write(msg)
+
+        if result.supports_sane_rowcount() and result.rowcount > -1:
+            sys.stdout.write(" ({0:n} rows)".format(result.rowcount))
+
+        sys.stdout.write("\n")
+
 
 
 def main(args=None):
