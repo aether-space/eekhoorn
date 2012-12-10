@@ -13,8 +13,9 @@ Requirements
 * six
 * sqlalchemy_ (0.7 or newer)
 * sqlparse_
+* pyrepl_
 
-  
+
 Limitations
 ===========
 
@@ -35,3 +36,4 @@ eekhoorn is a `buffer.io`_ project.
 .. _ansicolors: http://github.com/verigak/colors/
 .. _sqlalchemy: http://sqlalchemy.org/
 .. _sqlparse: https://github.com/andialbrecht/sqlparse
+.. _pyrepl: http://codespeak.net/pyrepl/
