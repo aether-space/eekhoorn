@@ -13,10 +13,12 @@ from six import integer_types, u
 
 from eekhoorn.gateway import DatabaseGateway
 from eekhoorn.reader import Reader
+from eekhoorn.pager import paginate
 from eekhoorn.table import DefaultCellRenderer, Table
 
 
 ENCODING = "utf-8"
+MAX_ROWS = 250
 
 
 class CellRenderer(object):
@@ -46,9 +48,9 @@ def tableify(result, max_width):
     renderer = CellRenderer()
     columns = zip(result.keys(), [renderer] * len(result.keys()))
     table = Table(columns, max_width=max_width)
-    for row in islice(result, 10):
+    for row in islice(result, MAX_ROWS):
         table.add_row(row)
-    return u("\n").join(table.render())
+    return table.render()
 
 def do_query(console, gateway, source):
     "Executes the query and formats the result."
@@ -60,8 +62,8 @@ def do_query(console, gateway, source):
     else:
         with closing(result):
             if result.returns_rows:
-                sys.stdout.write(tableify(result, console.width))
-                sys.stdout.write("\n")
+                lines = tableify(result, console.width)
+                paginate(console, lines)
         msg = "Query took {0:.4f} seconds".format(gateway.last_query_time)
         sys.stdout.write(msg)
 
