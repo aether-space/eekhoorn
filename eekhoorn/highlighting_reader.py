@@ -89,7 +89,15 @@ class HighlightingReader(pyrepl.reader.Reader):
         # c/p from pyrepl.reader.Reader with added highlighting
         # XXX This is a mess
         def add(*args, **kwargs):
-            return _add_line_part(screen, screeninfo, tokens, *args, **kwargs)
+            remaining_tokens = _add_line_part(
+                screen, screeninfo, tokens, *args, **kwargs)
+            # Unfortunately, pyrepl's UnixConsole asumes it can get
+            # the length (on screen) of the new line using len(), to
+            # check whether the new line completely overwrites the old
+            # line. Due to escape sequences, that doesn't work at all,
+            # hence always explicitly clear to the end of line
+            screen[-1] += self.console._el
+            return remaining_tokens
         screen = []
         screeninfo = []
         input = self.get_unicode()
