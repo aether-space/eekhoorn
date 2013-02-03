@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 import argparse
+import io
+import os
 import sys
 from contextlib import closing
 from functools import partial
@@ -19,6 +21,7 @@ from eekhoorn.table import DefaultCellRenderer, Table
 
 ENCODING = "utf-8"
 MAX_ROWS = 250
+HISTORY_PATH = "~/.eekhoornhistory"
 
 
 class CellRenderer(object):
@@ -85,6 +88,13 @@ def main(args=None):
     gateway = DatabaseGateway(args.url)
     console = UnixConsole(encoding=ENCODING)
     reader = Reader(console=console, gateway=gateway)
+    history_path = os.path.expanduser(HISTORY_PATH)
+    try:
+        with io.open(history_path, "r", encoding="utf-8") as hist_file:
+            for line in hist_file:
+                reader.history.append(line.strip())
+    except EnvironmentError:
+        pass
     sys.stdout.write("Welcome to eekhoorn, the fancy SQL console.\n")
     while True:
         try:
@@ -93,6 +103,9 @@ def main(args=None):
             break
         else:
             do_query(console, gateway, line)
+    with io.open(history_path, "w", encoding="utf-8") as hist_file:
+        for line in reader.history:
+            hist_file.write(line + "\n")
 
     return 0
 
