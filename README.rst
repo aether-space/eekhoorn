@@ -22,6 +22,13 @@ Limitations
 eekhoorn currently assumes that your terminal uses UTF-8 as IO encoding.
 
 
+Development
+===========
+
+Found some issues or just want to get the source? Check out
+eekhoorn's `Github page <https://github.com/bufferio/eekhoorn>`_.
+
+
 License
 =======
 
