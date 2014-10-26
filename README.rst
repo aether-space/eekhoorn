@@ -8,7 +8,7 @@ A fancy SQL console.
 Requirements
 ============
 
-* Python 2.6 or newer (including Python 3)
+* Python 2.7 or Python >= 3.3
 * ansicolors_
 * six
 * sqlalchemy_ (0.7 or newer)
