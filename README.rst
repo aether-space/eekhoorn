@@ -1,6 +1,10 @@
-=======
-eekhorn
-=======
+.. image:: https://travis-ci.org/bufferio/eekhoorn.svg?branch=master
+   :target: https://travis-ci.org/bufferio/eekhoorn
+
+
+========
+eekhoorn
+========
 
 A fancy SQL console.
 
