@@ -98,7 +98,7 @@ class HighlightingReader(pyrepl.reader.Reader):
             # check whether the new line completely overwrites the old
             # line. Due to escape sequences, that doesn't work at all,
             # hence always explicitly clear to the end of line
-            screen[-1] += self.console._el
+            screen[-1] += self.console._el.decode('latin1')
             return remaining_tokens
         screen = []
         screeninfo = []
