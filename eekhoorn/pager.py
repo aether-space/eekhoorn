@@ -1,12 +1,13 @@
 # encoding: utf-8
 
+from __future__ import unicode_literals
+
 import os
 import subprocess
 import sys
 from itertools import chain, islice
 
 from colors import green, red
-from six import u
 
 
 def paginate_external(data):
@@ -22,6 +23,7 @@ def paginate_external(data):
         msg = "Error executing pager: {0}\n".format(e)
         sys.stderr.write(red(msg))
 
+
 def _get_key(console):
     console.prepare()
     try:
@@ -30,6 +32,7 @@ def _get_key(console):
                 return event.data
     finally:
         console.restore()
+
 
 def paginate(console, lines):
     already_printed_lines = []
@@ -47,9 +50,9 @@ def paginate(console, lines):
         key = _get_key(console)
         sys.stdout.write("\r" + " " * len(msg) + "\r")
         sys.stdout.flush()
-        if key == u(" "):
+        if key == " ":
             continue
-        elif key == u("p"):
+        elif key == "p":
             lines = chain(already_printed_lines, lines)
-            paginate_external(("\n").join(lines).encode(console.encoding))
+            paginate_external("\n".join(lines).encode(console.encoding))
         break

@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+from __future__ import unicode_literals
+
 import argparse
 import io
 import os
@@ -11,7 +13,7 @@ from itertools import islice
 import sqlalchemy.exc
 from colors import green, red
 from pyrepl.unix_console import UnixConsole
-from six import integer_types, u
+from six import integer_types
 
 from eekhoorn.gateway import DatabaseGateway
 from eekhoorn.reader import Reader
@@ -36,7 +38,7 @@ class CellRenderer(object):
         color = None
         renderer = self.renderer_left
         if value is None:
-            value = u("NULL")
+            value = "NULL"
             color = partial(red, style="italic")
             renderer = self.renderer_right
         elif isinstance(value, integer_types + (float, )):

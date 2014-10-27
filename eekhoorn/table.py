@@ -4,10 +4,12 @@
     Fancy Unicode tables.
 """
 
+from __future__ import unicode_literals
+
 from collections import defaultdict
 from textwrap import wrap
 
-from six import text_type, u
+from six import text_type
 from six.moves import xrange
 
 
@@ -15,12 +17,12 @@ class DefaultCellRenderer(object):
     "The default cell renderer."
 
     JUSTIFIERS = {
-        "left": lambda s, w: (u(" ") + s).ljust(w),
-        "right": lambda s, w: (s + u(" ")).rjust(w),
+        "left": lambda s, w: (" " + s).ljust(w),
+        "right": lambda s, w: (s + " ").rjust(w),
         "center": lambda s, w: s.center(w)
     }
 
-    wrap_sign = u("\N{LEFTWARDS ARROW WITH HOOK}")
+    wrap_sign = "\N{LEFTWARDS ARROW WITH HOOK}"
 
     def __init__(self, justification="left"):
         if justification not in self.JUSTIFIERS:
@@ -72,46 +74,46 @@ class Table(object):
 
     # Chars used for the first line in header
     header_top = [
-        u("\N{BOX DRAWINGS DOWN SINGLE AND RIGHT DOUBLE}"),
-        u("\N{BOX DRAWINGS DOWN SINGLE AND LEFT DOUBLE}"),
-        u("\N{BOX DRAWINGS DOUBLE HORIZONTAL}"),
-        u("\N{BOX DRAWINGS DOWN SINGLE AND HORIZONTAL DOUBLE}")
+        "\N{BOX DRAWINGS DOWN SINGLE AND RIGHT DOUBLE}",
+        "\N{BOX DRAWINGS DOWN SINGLE AND LEFT DOUBLE}",
+        "\N{BOX DRAWINGS DOUBLE HORIZONTAL}",
+        "\N{BOX DRAWINGS DOWN SINGLE AND HORIZONTAL DOUBLE}"
     ]
 
     # Chars used for the middle line in header
     header_middle = [
-        u("\N{BOX DRAWINGS LIGHT VERTICAL}"),
-        u("\N{BOX DRAWINGS LIGHT VERTICAL}"),
-        u("\N{BOX DRAWINGS LIGHT VERTICAL}")
+        "\N{BOX DRAWINGS LIGHT VERTICAL}",
+        "\N{BOX DRAWINGS LIGHT VERTICAL}",
+        "\N{BOX DRAWINGS LIGHT VERTICAL}"
     ]
 
     # Chars used for the last line in header
     header_bottom = [
-        u("\N{BOX DRAWINGS VERTICAL SINGLE AND RIGHT DOUBLE}"),
-        u("\N{BOX DRAWINGS VERTICAL SINGLE AND LEFT DOUBLE}"),
-        u("\N{BOX DRAWINGS DOUBLE HORIZONTAL}"),
-        u("\N{BOX DRAWINGS VERTICAL SINGLE AND HORIZONTAL DOUBLE}")
+        "\N{BOX DRAWINGS VERTICAL SINGLE AND RIGHT DOUBLE}",
+        "\N{BOX DRAWINGS VERTICAL SINGLE AND LEFT DOUBLE}",
+        "\N{BOX DRAWINGS DOUBLE HORIZONTAL}",
+        "\N{BOX DRAWINGS VERTICAL SINGLE AND HORIZONTAL DOUBLE}"
     ]
 
     # Chars used for the table's last line
     bottom = [
-        u("\N{BOX DRAWINGS LIGHT UP AND RIGHT}"),
-        u("\N{BOX DRAWINGS LIGHT UP AND LEFT}"),
-        u("\N{BOX DRAWINGS LIGHT HORIZONTAL}"),
-        u("\N{BOX DRAWINGS LIGHT UP AND HORIZONTAL}")
+        "\N{BOX DRAWINGS LIGHT UP AND RIGHT}",
+        "\N{BOX DRAWINGS LIGHT UP AND LEFT}",
+        "\N{BOX DRAWINGS LIGHT HORIZONTAL}",
+        "\N{BOX DRAWINGS LIGHT UP AND HORIZONTAL}"
     ]
 
     row = [
-        u("\N{BOX DRAWINGS LIGHT VERTICAL}"),
-        u("\N{BOX DRAWINGS LIGHT VERTICAL}"),
-        u("\N{BOX DRAWINGS LIGHT VERTICAL}")
+        "\N{BOX DRAWINGS LIGHT VERTICAL}",
+        "\N{BOX DRAWINGS LIGHT VERTICAL}",
+        "\N{BOX DRAWINGS LIGHT VERTICAL}"
     ]
 
     line = [
-        u("\N{BOX DRAWINGS LIGHT VERTICAL AND RIGHT}"),
-        u("\N{BOX DRAWINGS LIGHT VERTICAL AND LEFT}"),
-        u("\N{BOX DRAWINGS LIGHT HORIZONTAL}"),
-        u("\N{BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL}")
+        "\N{BOX DRAWINGS LIGHT VERTICAL AND RIGHT}",
+        "\N{BOX DRAWINGS LIGHT VERTICAL AND LEFT}",
+        "\N{BOX DRAWINGS LIGHT HORIZONTAL}",
+        "\N{BOX DRAWINGS LIGHT VERTICAL AND HORIZONTAL}"
     ]
 
     def __init__(self, columns, max_width=None):
@@ -202,7 +204,7 @@ class Table(object):
 
     def _render_sep_line(self, left, right, middle, sep):
         "Draws a separation line using the given symbols."
-        return u("").join([
+        return "".join([
             left,
             sep.join(middle * self._widths[name] for name in self.columns),
             right])
@@ -224,9 +226,9 @@ class Table(object):
             for x in xrange(len(self.columns)):
                 value = justified_lines.get((x, y))
                 if value is None:
-                    value = u(" ") * self._widths[self.columns[x]]
+                    value = " " * self._widths[self.columns[x]]
                 values.append(value)
-            yield u("").join([
+            yield "".join([
                 left,
                 sep.join(values),
                 right])

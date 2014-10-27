@@ -1,11 +1,13 @@
 # encoding: utf-8
 
+from __future__ import unicode_literals
+
 from collections import defaultdict, deque
 from functools import partial
 
 import sqlparse
 from pyrepl import completing_reader
-from six import iteritems, itervalues, next, text_type, u
+from six import iteritems, itervalues, next, text_type
 from sqlparse.keywords import KEYWORDS_COMMON
 from sqlparse.sql import Identifier
 
@@ -34,8 +36,9 @@ def get_all_identifiers(tokens):
             expansions = idents.get(parent_name)
             if expansions and len(expansions) == 1:
                 parent_name = next(iter(expansions))
-            idents[alias].add(u("{0}.{1}").format(parent_name, name))
+            idents[alias].add("{0}.{1}".format(parent_name, name))
     return idents
+
 
 def find_identifier(tokens, name):
     """Given the tokens of a statement and a possibly aliased name, return
@@ -45,6 +48,7 @@ def find_identifier(tokens, name):
     if real_names is not None:
         return next(iter(real_names))
     return None
+
 
 def get_current_token(tokens, pos):
     token_pos = 0
@@ -61,7 +65,7 @@ def get_unique_column_names(used_idents, tables):
     columns = {}
     for real_names in itervalues(used_idents):
         for table_name in real_names:
-            if not u(".") in table_name:
+            if "." not in table_name:
                 table = tables.get(table_name)
                 if table is not None:
                     for column in table.columns:

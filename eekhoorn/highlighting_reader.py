@@ -1,11 +1,12 @@
 # encoding: utf-8
 
+from __future__ import unicode_literals
+
 from collections import deque
 from itertools import chain
 
 import pyrepl.reader
 from colors import color
-from six import u
 from six.moves import xrange
 from sqlparse import sql
 from sqlparse.tokens import Token
@@ -38,7 +39,7 @@ def group_by_line(tokens):
     line = []
     while tokens:
         token = tokens.popleft()
-        if not "\n" in token.value:
+        if "\n" not in token.value:
             line.append(token)
         else:
             (value, _, rest) = token.value.partition("\n")
@@ -79,11 +80,12 @@ def _add_line_part(
     screeninfo.append((pos, l2))
     return chain(leftovers, tokens_iter)
 
+
 class HighlightingReader(pyrepl.reader.Reader):
     """A reader that highlights SQL using ANSI escape sequences.
     """
 
-    wrap_sign = u("\N{LEFTWARDS ARROW WITH HOOK}")
+    wrap_sign = "\N{LEFTWARDS ARROW WITH HOOK}"
 
     def calc_screen(self):
         # c/p from pyrepl.reader.Reader with added highlighting
